@@ -1,6 +1,7 @@
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+from datetime import datetime
 
 white = 255, 255, 255
 black = 0, 0, 0
@@ -27,6 +28,7 @@ while True:
 	else:
 		print('Error! Choose only black or white.')
 
+	start = datetime.utcnow()
 	img = Image.open(f"{userFileNameInput}")
 	draw = ImageDraw.Draw(img)
 	font = ImageFont.truetype("bahnschrift.ttf", 100)
@@ -34,4 +36,8 @@ while True:
 	draw.text((100, 100), f"{userInput}", userColor, font=font)
 
 	img.save("Pillow.png")
-	print('Done!')
+	response_time = datetime.utcnow() - start
+	hours, remainder = divmod(float(response_time.total_seconds()), 3600)
+	minutes, secS = divmod(remainder, 60)
+	seconds = round(secS, 1)
+	print(f'Done! Took {seconds}s')
